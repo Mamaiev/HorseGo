@@ -39,40 +39,94 @@ public class HomeActivity extends Activity {
 
     }
 
+    public void startProgress(View view) {
+        progressBarPlayer1.setProgress(0);
+        progressBarPlayer2.setProgress(0);
 
-    class play extends AsyncTask<Void, Integer, Void>{
+        Thread t1 = new Thread(new Task1());
+        Thread t2 = new Thread(new Task2());
 
-        private int progress = 0;
+        t1.start();
+        t2.start();
+    }
+        class Task1 implements Runnable{
 
-        @Override
-        protected Void doInBackground(Void... params) {
-            while (progress < 100)  {
-                progress++;
-                publishProgress(progress);
-            SystemClock.sleep(1000); }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Toast.makeText(HomeActivity.this, "Run", Toast.LENGTH_LONG);
+            @Override
+            public void run() {
+                for (int i = 0; i < 100;) {
+                    if ((i += (int) (Math.random()*5)) >= 100) {
+                        i = 100;
+                    } else {
+                        i += (int) (Math.random()*5);}
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
+                    progressBarPlayer1.setProgress(i);
+                }
+            }
+        }
+        class Task2 implements Runnable{
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(HomeActivity.this, "END", Toast.LENGTH_SHORT);
+            @Override
+            public void run() {
+                for (int i = 0; i <= 100 ; i++) {
+                    final int value = i;
+                    i+= (int) (Math.random()*5);
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    progressBarPlayer2.setProgress(value);
+                }
+            }
         }
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            progressBarPlayer1.setProgress(values[0]);
-        }
     }
 
-    public void start(View view){
-       new play().execute();
-        }
-    }
+
+
+
+
+
+
+
+//    class play extends AsyncTask<Void, Integer, Void>{
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            int progress = 0;
+//            while (progress < 100)  {
+//                progress += (int)(Math.random()*5);
+//                publishProgress(progress);
+//            SystemClock.sleep(500);
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            Toast.makeText(HomeActivity.this, "Run", Toast.LENGTH_LONG).show();
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            Toast.makeText(HomeActivity.this, "END", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            super.onProgressUpdate(values);
+//            progressBarPlayer1.setProgress(values[0]);
+//        }
+//    }
+//
+//    public void start(View view){
+//
+//       new play().execute();
+//        }
+
