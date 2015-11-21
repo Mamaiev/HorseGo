@@ -48,6 +48,7 @@ public class HomeActivity extends Activity {
 
         t1.start();
         t2.start();
+
     }
         class Task1 implements Runnable{
 
