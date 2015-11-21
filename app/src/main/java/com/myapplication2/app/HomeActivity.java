@@ -72,15 +72,17 @@ public class HomeActivity extends Activity {
 
             @Override
             public void run() {
-                for (int i = 0; i <= 100 ; i++) {
-                    final int value = i;
-                    i+= (int) (Math.random()*5);
+                for (int i = 0; i < 100;) {
+                    if ((i += (int) (Math.random()*5)) >= 100) {
+                        i = 100;
+                    } else {
+                        i += (int) (Math.random()*5);}
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    progressBarPlayer2.setProgress(value);
+                    progressBarPlayer2.setProgress(i);
                 }
             }
         }
